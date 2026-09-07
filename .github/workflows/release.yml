@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: npm i
+        run: npm i --save-dev @types/node
 
       - name: Run Tests
         run: npm run test # Runs the test script defined in package.json

@@ -2,7 +2,7 @@
 
 import { resolveHostname } from './resolver.js';
 
-function usage(): never {
+function usage() {
   console.error(`
 Usage:
   hostname-pattern <pattern> <ip>
