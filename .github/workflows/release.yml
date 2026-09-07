@@ -6,7 +6,7 @@ on:
   # Triggers this workflow only when a tag is pushed
   push:
     tags:
-      - 'v*' # Change 'v*' to your tagging convention if different
+      - '*' # Change 'v*' to your tagging convention if different
 
 jobs:
   build-and-test:
