@@ -26,8 +26,11 @@ jobs:
       - name: Run Tests
         run: npm run test # Runs the test script defined in package.json
 
-      - name: Build Project
-        run: npm run build # Creates the production build files
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: dist/
 
   publish:
     # This job only runs if the build-and-test job succeeds *and* if a tag was pushed
@@ -38,8 +41,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
 
-      - name: Install dependencies
-        run: npm i
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
 
       - name: Publish to NPM
         # This step requires the NPM_TOKEN secret to be set in GitHub Secrets
