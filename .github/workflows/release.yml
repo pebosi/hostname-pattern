@@ -1,0 +1,54 @@
+# .github/workflows/release.yml
+
+name: Release on Tag
+
+on:
+  # Triggers this workflow only when a tag is pushed
+  push:
+    tags:
+      - 'v*' # Change 'v*' to your tagging convention if different
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Fetch all history to ensure tag discovery
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use the Node.js version matching your project
+
+      - name: Install dependencies
+        run: npm ci # 'ci' ensures deterministic lockfile installation
+
+      - name: Run Tests
+        run: npm run test # Runs the test script defined in package.json
+
+      - name: Build Project
+        run: npm run build # Creates the production build files
+
+  publish:
+    # This job only runs if the build-and-test job succeeds *and* if a tag was pushed
+    needs: build-and-test
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') # Use a more specific prefix check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publish to NPM
+        # This step requires the NPM_TOKEN secret to be set in GitHub Secrets
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Optional: If your project needs to authenticate with a registry other than npm public
+          # NPM_FORCE_COLOR: 'true'
