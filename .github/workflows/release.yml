@@ -6,7 +6,7 @@ on:
   # Triggers this workflow only when a tag is pushed
   push:
     tags:
-      - '*' # Change 'v*' to your tagging convention if different
+      - "*" # Change 'v*' to your tagging convention if different
 
 jobs:
   build-and-test:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use the Node.js version matching your project
+          node-version: "20" # Use the Node.js version matching your project
 
       - name: Install dependencies
         run: npm ci # 'ci' ensures deterministic lockfile installation
@@ -41,7 +41,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm ci
