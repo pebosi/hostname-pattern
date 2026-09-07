@@ -23,7 +23,7 @@ jobs:
           node-version: "20" # Use the Node.js version matching your project
 
       - name: Install dependencies
-        run: npm ci # 'ci' ensures deterministic lockfile installation
+        run: npm i
 
       - name: Run Tests
         run: npm run test # Runs the test script defined in package.json
